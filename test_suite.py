@@ -20,8 +20,8 @@ SOUND_CHANNEL = 1   # Grove sound sensor on CH1
 # Set these by running the script and observing printed values:
 # cover the light sensor with your hand → note the "dark" reading
 # tap the sound sensor → note the "loud" reading
-LUX_THRESHOLD   = 500   # below = dark, above = bright (adjust via experimentation)
-SOUND_THRESHOLD = 600   # above = tap detected        (adjust via experimentation)
+LUX_THRESHOLD   = 15   # below = dark, above = bright (adjust via experimentation)
+SOUND_THRESHOLD = 20   # above = tap detected        (adjust via experimentation)
 
 
 # --- Modular LED helpers ---
