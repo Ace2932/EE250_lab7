@@ -76,8 +76,8 @@ LUX_CHANNEL = 0   # Grove light sensor
 SOUND_CHANNEL = 1 # Grove sound sensor
 
 # Set via experimentation (run calibration mode to find values):
-LUX_THRESHOLD = 512    # above = bright, below = dark
-SOUND_THRESHOLD = 512  # above = tap/loud
+LUX_THRESHOLD = 100    # above = bright, below = dark
+SOUND_THRESHOLD = 100  # above = tap/loud
 
 
 def run_adc_test(mcp, channels=None, interval=0.5):
@@ -98,9 +98,9 @@ def run_adc_test(mcp, channels=None, interval=0.5):
         print("\nStopped.")
 
 
-def run_test_suite(mcp):
+def run_test_suite(mcp, once=False):
     """
-    Test suite: run the following sequence in an infinite loop:
+    Test suite: run the sequence (once or in an infinite loop):
     1. Blink LED 5 times (500ms on / 500ms off)
     2. Read light sensor ~5s at 100ms, print raw + bright/dark
     3. Blink LED 4 times (200ms on / 200ms off)
@@ -135,6 +135,9 @@ def run_test_suite(mcp):
             else:
                 time.sleep(interval_sec)
 
+        if once:
+            break
+
 
 def main():
     mcp = init_adc_hardware_spi(SPI_PORT, SPI_DEVICE)
@@ -145,9 +148,13 @@ def main():
         cleanup_gpio()
         return
 
-    print("Test suite running (Ctrl-C to quit). Tune LUX_THRESHOLD and SOUND_THRESHOLD as needed.")
+    run_once = len(sys.argv) > 1 and sys.argv[1].lower() == "once"
+    if run_once:
+        print("Test suite (one cycle).")
+    else:
+        print("Test suite running (Ctrl-C to quit). Use 'python test_suite.py once' for one cycle.")
     try:
-        run_test_suite(mcp)
+        run_test_suite(mcp, once=run_once)
     except KeyboardInterrupt:
         print("\nStopped.")
     finally:
