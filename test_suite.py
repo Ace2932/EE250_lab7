@@ -64,16 +64,20 @@ def step_light_sensor(duration_s=5.0, interval_ms=100):
         time.sleep(interval_ms / 1000.0)
 
 def step_sound_sensor(duration_s=5.0, interval_ms=100):
-    """Read sound sensor for ~duration_s seconds. Flash LED 100ms on tap."""
+    """Read sound sensor for ~duration_s seconds. Flash LED 100ms on tap. Keeps strict 100ms cadence."""
     n = int(duration_s / (interval_ms / 1000.0))
     for _ in range(n):
+        start = time.time()
         raw = read_channel(SOUND_CHANNEL)
         print("sound:", raw)
         if raw > SOUND_THRESHOLD:
             led_on()
-            time.sleep(0.1)   # 100 ms flash
+            time.sleep(0.1)
             led_off()
-        time.sleep(interval_ms / 1000.0)
+        elapsed = time.time() - start
+        remaining = (interval_ms / 1000.0) - elapsed
+        if remaining > 0:
+            time.sleep(remaining)
 
 
 # --- Main test loop ---
