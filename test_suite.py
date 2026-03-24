@@ -14,8 +14,8 @@ GPIO.setup(LED_PIN, GPIO.OUT)
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 # --- Sensor channels ---
-LUX_CHANNEL   = 0   # Grove light sensor on CH0
-SOUND_CHANNEL = 1   # Grove sound sensor on CH1
+LUX_CHANNEL   = 1   # Grove light sensor on CH0
+SOUND_CHANNEL = 0   # Grove sound sensor on CH1
 
 # Set these by running the script and observing printed values:
 # cover the light sensor with your hand → note the "dark" reading
